@@ -1,8 +1,8 @@
 ## Setting up the application
 - Run `composer install`
 - Run `npm install`
-- Run `php artisan serve` to start php server
-- Run `npm run dev` in a new terminal
+- Run `npm run dev`
+- Run `php artisan serve` in a new terminal to start php server
 - Run `php artisan queue:work` in a new terminal to start the queue workers
 - Run `php artisan reverb:start` to start the broadcasting server in a new terminal
 
