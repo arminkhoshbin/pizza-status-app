@@ -7,7 +7,7 @@ use App\Models\OrderHistory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use PHPUnit\Framework\Attributes\DataProvider;
+use Illuminate\Foundation\Vite;
 use PHPUnit\Framework\Attributes\Test;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
@@ -20,6 +20,8 @@ class PosSendOrderUpdateCreateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->spy(Vite::class);
     }
 
     #[Test]

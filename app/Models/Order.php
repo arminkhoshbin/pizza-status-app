@@ -12,21 +12,6 @@ class Order extends Model
 
     protected $guarded = [];
 
-    private const ORDER_STATUSES = [
-        [
-            'status' => 'making',
-            'label' => 'Making the pizza',
-        ],
-        [
-            'status' => 'cooking',
-            'label' => 'Pizza is in the oven',
-        ],
-        [
-            'status' => 'ready',
-            'label' => 'Pizza is ready!',
-        ],
-    ];
-
     public function history(): HasMany
     {
         return $this->hasMany(OrderHistory::class, 'order_id', 'id');
@@ -41,7 +26,7 @@ class Order extends Model
     {
         $oldStatus = $this->history->pluck('status')->toArray();
 
-        return collect(self::ORDER_STATUSES)
+        return collect(config('order.statuses'))
             ->reject(fn ($status) => in_array($status['status'], $oldStatus))
             ->first();
     }
