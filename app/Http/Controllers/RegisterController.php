@@ -13,7 +13,7 @@ class RegisterController
     public function create()
     {
         if (Auth::check()) {
-            return to_route('pos.send-update.create');
+            return to_route('pos.orders.create');
         }
 
         return Inertia::render('Auth/Register');
@@ -29,6 +29,6 @@ class RegisterController
 
         Auth::login($user);
 
-        return to_route('pos.send-update.create');
+        return to_route('pos.orders.create');
     }
 }

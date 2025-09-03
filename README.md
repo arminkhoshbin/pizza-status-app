@@ -7,7 +7,9 @@
 - Run `php artisan reverb:start` to start the broadcasting server in a new terminal
 
 ## Running the application
-- `http://localhost:8000/pos/send-update` to send new pizza updates
-- `http://localhost:8000/pos/updates` to view live status updates
+- `http://localhost:8000/pos/orders` to view all your orders
+- `http://localhost:8000/pos/create-order` to create a new pizza order
+- `http://localhost:8000/orders/{orderId}/send-updates` to send new order updates
+- `http://localhost:8000/order/updates` to view all order updates
 
 >You will need to register first on the app before accessing any of the pages.

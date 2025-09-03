@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Order;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -12,13 +13,17 @@ class PizzaStatusUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public int $userId, public string $status)
+    public function __construct(public int $userId, public Order $order, public string $status)
     {
     }
 
     public function broadcastWith()
     {
-        return ['status' => $this->status];
+        return [
+            'orderId' => $this->order->id,
+            'orderName' => $this->order->name,
+            'status' => $this->status
+        ];
     }
 
     public function broadcastAs()

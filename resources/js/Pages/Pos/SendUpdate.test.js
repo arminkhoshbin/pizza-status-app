@@ -16,9 +16,55 @@ const pageProps = {
   }
 };
 
+const order = {
+  id: 1,
+  name: 'pepperoni pizza',
+};
+
 describe('SendUpdate', () => {
-  it('loads the buttons to change status of pizza', () => {
+  it('shows order name', () => {
+    const { getByText } = render(SendUpdate, {
+      props: {
+        order: order,
+        nextAvailableStatus: {
+          status: 'making',
+          label: 'making your pizza',
+        },
+      },
+      global: {
+        mocks: {
+          $page: pageProps,
+        },
+      }
+    });
+
+    expect(getByText('Update status of the pepperoni pizza'));
+  });
+
+  it('shows completed order when there is no next available status', () => {
+    const { getByText } = render(SendUpdate, {
+      props: {
+        order: order,
+      },
+      global: {
+        mocks: {
+          $page: pageProps,
+        },
+      }
+    });
+
+    expect(getByText('Your pepperoni pizza order is completed!'));
+  });
+
+  it('loads the button to change status of pizza', () => {
     const { getByRole } = render(SendUpdate, {
+      props: {
+        order: order,
+        nextAvailableStatus: {
+          status: 'making',
+          label: 'Making the Pizza',
+        },
+      },
       global: {
         mocks: {
           $page: pageProps,
@@ -27,8 +73,6 @@ describe('SendUpdate', () => {
     });
 
     expect(getByRole('button', { name: 'Making the Pizza' })).toBeDefined();
-    expect(getByRole('button', { name: 'Pizza is in the oven' })).toBeDefined();
-    expect(getByRole('button', { name: 'Pizza is ready!' })).toBeDefined();
   });
 
   it.each([
@@ -37,6 +81,13 @@ describe('SendUpdate', () => {
     ['Pizza is ready!', 'ready'],
   ])('makes a request to update status of the pizza', async (buttonLabel, status) => {
     const { getByRole } = render(SendUpdate, {
+      props: {
+        order: order,
+        nextAvailableStatus: {
+          status: status,
+          label: buttonLabel,
+        },
+      },
       global: {
         mocks: {
           $page: pageProps,
@@ -46,7 +97,7 @@ describe('SendUpdate', () => {
 
     await fireEvent.click(getByRole('button', { name: buttonLabel }));
 
-    expect(router.post).toHaveBeenCalledWith('/pos/send-update', {
+    expect(router.post).toHaveBeenCalledWith(`/orders/${order.id}/send-update`, {
       status: status,
     }, expect.anything());
   });

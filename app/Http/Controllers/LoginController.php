@@ -11,7 +11,7 @@ class LoginController
     public function create()
     {
         if (Auth::check()) {
-            return redirect()->route('pos.send-update.create');
+            return redirect()->route('pos.orders.create');
         }
 
         return Inertia::render('Auth/Login');
@@ -23,7 +23,7 @@ class LoginController
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ])) {
-            return to_route('pos.send-update.create');
+            return to_route('pos.orders.create');
         }
 
         return to_route('login')->withErrors([
