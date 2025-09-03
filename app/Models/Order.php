@@ -39,8 +39,10 @@ class Order extends Model
 
     public function nextAvailableOrderStatus(): ?array
     {
+        $oldStatus = $this->history->pluck('status')->toArray();
+
         return collect(self::ORDER_STATUSES)
-            ->reject(fn ($status) => in_array($status['status'], $this->history->pluck('status')->toArray()))
+            ->reject(fn ($status) => in_array($status['status'], $oldStatus))
             ->first();
     }
 
